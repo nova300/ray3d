@@ -10,7 +10,7 @@ public class Ray {
     public static double pi = (float)Math.PI;
     public static double pi2 = pi/2;
     public static double pi3 = 3*pi/2;
-    public static double dgr = 0.0174533;
+    public static double dgr = 0.0174533;       /* one degree in radians */
 
     public static double xo,yo,rhy,rhx,rvy,rvx;
     public static int mapX = Map.getX();
@@ -44,7 +44,7 @@ public class Ray {
             max = 0;
             double aTan=(-1/Math.tan(ra));          
             if(ra>pi){                              /* if the rayangle is more than pi we are looking up */
-                ry=(((int)py/mapS)*mapS) -0.0001;   
+                ry=(((int)py/mapS)*mapS) -0.0001;   /* division and multiplication is for aligning to tilemap, subtraction is for accuracy */
                 rx=(py-ry)*aTan+px; 
                 yo=-mapS; 
                 xo=-yo*aTan;
@@ -70,7 +70,7 @@ public class Ray {
                     hx = rx;
                     hy = ry;
                     max = 8;
-                }   else { /* next ray */
+                }   else { /* cell is not a wall, check the next one */
                     rx+=xo;
                     ry+=yo;
                     max+=1;
@@ -106,7 +106,7 @@ public class Ray {
                     vx = rx;
                     vy = ry;
                     max = 8;
-                }   else { /* next ray */
+                }   else { 
                     rx+=xo;
                     ry+=yo;
                     max+=1;
@@ -115,7 +115,7 @@ public class Ray {
             
             
 
-            if(disV>disH){
+            if(disV>disH){  /* here we choose if we choose if we are using a horizontal line or a vertical line based on which one lands closest to the player */
                 rx=hx;
                 ry=hy;
                 disT=disH;
@@ -125,7 +125,7 @@ public class Ray {
                 rx=vx;
                 ry=vy;
                 disT=disV;
-                glColor3f(0,0.5f,0.5f);
+                glColor3f(0,0.5f,0.5f); /* set a slightly darker colour for the vertical rays to get a basic shading effect */
             }
 
             
@@ -149,6 +149,9 @@ public class Ray {
 
 
             /*
+
+            UNUSED, used to draw a line as the ray in 2D mode
+
             glColor3f(1,0,0);
             glLineWidth(1);
             glBegin(GL_LINES);
@@ -157,7 +160,7 @@ public class Ray {
             glEnd();
             */
 
-            
+            /* here we draw the lines using the lwjgl gl bindings */
             glLineWidth(8);
             glBegin(GL_LINES);
             glVertex2d(r*8+100,lineO);
